@@ -6,7 +6,7 @@
 package projet_super_puissance_4_.theodoly_zufferli;
 
 /**
- *
+ * 
  * @author clara
  */
 public class Cellule {
