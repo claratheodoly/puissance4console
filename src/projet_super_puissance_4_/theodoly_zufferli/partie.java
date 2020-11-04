@@ -169,6 +169,6 @@ public class partie {
     
     void debuterPartie () ;
     
-     
+     // coucou est ce que tu vois
     
 }
