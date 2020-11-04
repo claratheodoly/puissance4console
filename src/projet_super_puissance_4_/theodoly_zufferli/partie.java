@@ -169,7 +169,7 @@ public class partie {
     
     void debuterPartie () ;
     
-     // 3eme commenteaire
+     // 3eme commentaire
     
      
 }
