@@ -169,6 +169,6 @@ public class partie {
     
     void debuterPartie () ;
     
-    
+     
     
 }
