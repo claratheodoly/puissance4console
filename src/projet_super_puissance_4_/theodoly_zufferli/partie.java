@@ -169,7 +169,11 @@ public class partie {
     
     void debuterPartie () ;
     
+
      // 3eme commentaire
     
      
+
+     // coucou est ce que tu vois
+ 
 }
