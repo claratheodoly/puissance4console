@@ -10,20 +10,21 @@ package projet_super_puissance_4_.theodoly_zufferli;
  * @author clara
  */
 public class Cellule {
+    // attributs de notre classe
     Jeton jetonCourant ;
     boolean trouNoir ;
     boolean desintegrateur ;
-    // attributs de notre classe
     
-    // constructeur de notre classe cellule
+    
+    // constructeur de notre classe cellule initialisant les  valeurs par défauts et les attributs
      public Cellule () {
         trouNoir = false ; // aucun trou noir
         desintegrateur = false ; // Aucun désintégrateur
         jetonCourant = null; // Lors de la création de notre cellule il n'y a pas de jeton
-            //constructeur de notre classe
         }
      
-    boolean affecterJeton (Jeton UN_jetonCourant){ //Un_jetonCourant est le paramètre
+     // ajoute le jeton en paramètre à la cellule et retourne vrai si l'ajout s'est bien passé, ou faux sinon
+    public boolean affecterJeton (Jeton UN_jetonCourant){ //Un_jetonCourant est le paramètre
          if (jetonCourant == null){ // dans le cas ou mon jeton n'est pas sur une cellule
             jetonCourant = UN_jetonCourant; // je lui affecte une cellule
             return true;
@@ -31,48 +32,58 @@ public class Cellule {
             return false;
         }         
     } 
-     // la méthode récupererJeton permet de récupérer le jeton de la cellule
-     // si il n'y avait pas de jeton elle renvoit juste null
-    Jeton recupererJeton (){
+    
+     // la méthode récupérerjeotn renvoie une référence vers le jetojn de la cellule
+    public Jeton recupererJeton (){
          Jeton jetonRetour = jetonCourant ; // création d'un objet appelé jetonRetour auquel on affecte jetonCourant
          jetonCourant = null ;
          return jetonRetour;
      }
    
-    
-    Boolean supprimerJeton(){
-          if (jetonCourant != null ){
-          jetonCourant = null;
-            return true;
-        }else{
+    // supprime le jeton et renvoie vrai si la supression s'est bien passée, ou faux autrement
+    public boolean supprimerJeton(){
+          if (jetonCourant == null ) {
             return false;
+        }else{
+            jetonCourant = null;
+            return true;
         }
      }
-    Boolean placerTrouNoir (){
+    
+    // TOUT CE QUI CONCERNE LES TROUS NOIRS
+    
+    // ajoute un trou noir à l'endroit indiqué et retorne vrai si l'ajout s'est bien passé, ou faux sinon
+    public boolean placerTrouNoir (){
         if (trouNoir){// on est pas oblige d'écrire trouNoir == true car c'est un boolean
             return false ;
         }else{
-            trouNoir = true ;
+            trouNoir = true ; 
             return true ;
         }
     }
-    Boolean presenceTrouNoir (){
+    
+    // renvoie vrai si un trou noir est présent sur la cellule
+    public boolean presenceTrouNoir (){
         return trouNoir ;
     }
-     
-    Boolean activerTrouNoir (){
+    
+    // active le trou noir : le trou noir aspire le jeton et disparait.
+    // retourne vrai si tout s'est correctement déroulé , ou faux sinon
+    public boolean activerTrouNoir (){
         if (trouNoir){
             jetonCourant = null ;
             trouNoir = false ;
-            System.out.println("Votre pion vient d'être aspirer aspirer par le trou noir !");
+                System.out.println("Votre pion vient d'être aspirer aspirer par le trou noir !");
             return true;
         }else{
             return false ;
         }
     }
     
+    // TOUT CE QUI CONCERNE LES DESINTEGRATEURS
     
-    Boolean placerDesintegrateur (){
+    // ajoute un désintégrateur à l'endroit indiqué et retourne vrai si l'ajout s'est bien passé, ou faux sinon
+    public boolean placerDesintegrateur (){
         if (desintegrateur){
             return false ;
         }else{
@@ -81,33 +92,34 @@ public class Cellule {
         }
     }
 
-    Boolean presenceDesintegrateur (){
+    // vérifie la présence d'un désintégrateur sur la cellule
+    public boolean presenceDesintegrateur (){
         return desintegrateur ;
      }
     
-    // soit renvoit le mot "rien"
-    // ou renvoit la couleur du jeton qui a été affecté à la cellule
-    String lireCouleurDuJeton (){
-        if (jetonCourant == null){
-            return "rien" ;
-        }else{
-            return jetonCourant.Couleur ;
-    }
-  
-    }
-    Boolean recupererDesintegrateur(){
-        if ( presenceDesintegrateur() ){
+    
+    //supprime le désintégrateur présent sur la cellule, et renvoie vrai , ou faux sinon 
+    public boolean recupererDesintegrateur(){
+        if ( presenceDesintegrateur() ){ // on teste la méthode presenceDesintégrateur
             desintegrateur = false;
+                System.out.println(" Vous venez de récupérer le désintégrateur avec succès ! ");
             return true;
         }else{
             return false;
         }
     }
-  
     
+
     
+    // soit renvoit le mot "rien"
+    // ou renvoit la couleur du jeton occupant la cellule
+    public String lireCouleurDuJeton (){
+        if (jetonCourant == null){
+            return "rien" ;
+        }else{
+            return jetonCourant.Couleur ;
+        }
+    }
     
-    //ouille
 }    
 
-// commentaire
