@@ -9,6 +9,11 @@ package projet_super_puissance_4_.theodoly_zufferli;
  * 
  * @author clara
  */
+
+// CLASSE CELLULE : DECRIT UNE DES 42 CELLULES DE LA GRILLE. 
+// C'EST DANS CETTE CELLULE QU'IL EST POSSIBLE DE PLACER UN JETON, UN DESNTEGRATEUR/ET/OU UN TROU NOIR
+// CETTE CLASSE POSSEDE LES METHODES PERMETTANT LA GESTION DE CES ENTITES
+
 public class Cellule {
     // attributs de notre classe
     Jeton jetonCourant ;

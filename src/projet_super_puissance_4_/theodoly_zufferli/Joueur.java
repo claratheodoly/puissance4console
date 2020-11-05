@@ -11,6 +11,12 @@ import java.util.Random;
  *
  * @author clara
  */
+
+//CLASSE JOUEUR : DECRIVANT UN JOUEUR.
+// UN JOUEUR POSSEDE NOTAMMENT UN NOM
+// UN JOUEUR EST ASSOCIE A UNE COULEUR
+// UN JOUEUR DISPOSE AU DEBUT DE LA MANCHE UN ENSEMBLE DE JETONS ET SA COULEUR
+
 public class Joueur {
     // attributs de la classe joueur
     String Nom ;

@@ -8,16 +8,20 @@ package projet_super_puissance_4_.theodoly_zufferli;
 /**
  * @author clara
  */
+
+// CLASSE JETON : DECRIVANT UN JETON; ESSENTIELLEMENT REPRESENTE PAR UN ATTRIBUT COULEUR
+
 public class Jeton {
-    String Couleur ;
     // attributs de la classe
+    String Couleur ;
     
+    // constructeur de la classe Jeton initialisant la couleur du jeton avec le paramètre
     public Jeton (String UNE_Couleur) {
         Couleur = UNE_Couleur ;
-        //cosntructeur de notre classe
     }
-    
-    String lireCouleur () {
+   
+    // renvoit la couleur du jeton
+    public String lireCouleur () {
         return Couleur ;
     }
     
