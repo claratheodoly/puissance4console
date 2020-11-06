@@ -52,7 +52,7 @@ public class partie {
         
         Listejoueurs [0] = UNJoueur ; // on affecte nos joueurs à la liste qu'on a crée pour les différencier
         Listejoueurs [1] = AUTREJoueur ;
-        attribuerCouleursAuxJoueurs () ; // on appelle cette fonction
+        // attribuerCouleursAuxJoueurs () ; // on appelle cette fonction
     
         // on affiche une phrase d'instruction permettant de donner le pseudo du joueur ainsi que la couleur qui lui est attribuée
         System.out.println ( UNJoueur.Nom + "a la couleur " + UNJoueur.Couleur) ; // pour le premier joueur
@@ -101,7 +101,7 @@ public class partie {
                 i-- ;
             }
         }
-        grilleDeJeu.afficherGrilleSurConsole () ; // une fois tous les trous noirs et désintégrateurs placés on re affiche la grille pour la mettre à jour
+        grilleDeJeu.afficherGrillesurConsole () ; // une fois tous les trous noirs et désintégrateurs placés on re affiche la grille pour la mettre à jour
     }
     
     int option_joueur () {
@@ -131,12 +131,13 @@ public class partie {
              colonnejeton = sc.nextInt () - 1 ;
         }
         
-        jetonjouee = grilleDeJeu.ajouterJetonDansColonne(JoueurCourant, colonnejeton) ;
+        //jetonjouee = grilleDeJeu.ajouterJetonDansColonne(Jeton UN_jetonCourant, Joueur joueurCourant, int j) ;
+ 
         while ( !jetonjouee ) {
             System.out.println ( " Aïe aïe aïe, la colonne dans laquelle vous voulez jouer votre jeton est déjà pleine ....") ;
             System.out.println ( " Veuillez saisir une autre colonne qui n'est pas encore remplie : " ) ;
             colonnejeton = sc.nextInt () - 1 ;
-            jetonjouee = grilleDeJeu.ajouterJetonDansColonne ( JoueurCourant , colonnejeton ) ; // on ajoute le jeton jouée dans la grille de jeu
+          //  jetonjouee = grilleDeJeu.ajouterJetonDansColonne (Jeton UN_jetonCourant, Joueur joueurCourant, int j ) ; // on ajoute le jeton jouée dans la grille de jeu
        }
     }
     
@@ -158,22 +159,11 @@ public class partie {
              System.out.println (" Veuillez entrer un numéro de ligne qui existe : ") ;
              colonnejeton = sc.nextInt () - 1 ;
         }
-        if ( grilleDeJeu.Cellules[lignejeton][colonnejeton].jetonCourant != null && grilleDeJeu.Cellules[lignejeton][colonnejeton].lireCouleur == JoueurCourant.lireCouleur) { // Gros souci ici
-            JoueurCourant.ajouterJeton (grilleDeJeu.recupererJeton(lignejeton, colonnejeton)) ;
-            grilleDeJeu.tasserGrille( lignejeton , colonnejeton ) ;
+       // if ( grilleDeJeu.Cellules[lignejeton][colonnejeton].jetonCourant != null && grilleDeJeu.Cellules[lignejeton][colonnejeton].lireCouleur == JoueurCourant.lireCouleur) { // Gros souci ici
+           // JoueurCourant.ajouterJetonDansColonne (grilleDeJeu.recupererJeton(lignejeton, colonnejeton)) ;
+            //grilleDeJeu.tasserGrille( lignejeton , colonnejeton ) ;
             return true ;
-        } else {
-            return false ;
+       // } else {
+         //   return false ;
         }
     }
-    
-    void debuterPartie () ;
-    
-
-     // 3eme commentaire
-    
-     
-
-     // coucou est ce que tu vois
- 
-}

@@ -142,7 +142,7 @@ public class Grille {
     
     // renvoie la couleur du jeton de la cellule ciblée
     public String lireCouleurDuJeton ( int i , int j ) {
-    return Cellules[i][j]. recupererJeton() . lireCouleur () ;
+    return Cellules[i][j].lireCouleurDuJeton () ;
     }
     
     
@@ -190,10 +190,80 @@ public class Grille {
         }
     }
     
+    // renvoie vrai si la grille est gagnate pour le joueur passé en paramètr, c'est à dire que 4 pions de sa couleur sont alignés 
+    // EN LIGNE
+    // EN COLONNE
+    // EN DIAGONALE DESCENDANTE 
+    // EN DIAGONALE MONTANTE
+    public boolean etreGagnantePourJoueur ( Joueur jetonCourant ) {
+    
+        // TEST SUR LES LIGNES SI 4 JETONS SONT ALIGNES HORIZONTALEMENT
+        // pour ce test on sait qu'on pourra se réduire aux 4 colones de gauches car il n'y aura pas assez de place pour fair un aligment de 4 jetons
+        // si le premier jeton se trouvant le plus à gauche se situe sur la colonne 5
+        for ( int i = 0 ; i < 6 ; i++ ) { // on prends en compte bien chacuneS des lignes
+            for (int j = 0 ; j < 4 ; j++ ){ // 7-3 = 4
+                if ( Cellules[i][j].lireCouleurDuJeton () == jetonCourant.Couleur ) { // pour comparer des strings on peut utiliser '==' ou '!='
+                    if ( Cellules[i][j+1].lireCouleurDuJeton () == jetonCourant.Couleur ) {
+                        if ( Cellules[i][j+2].lireCouleurDuJeton () == jetonCourant.Couleur ) {
+                            if ( Cellules[i][j+3].lireCouleurDuJeton () == jetonCourant.Couleur ) {
+                                return true ;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        // TEST SUR LES COLONNES SI 4 JETONS SONT ALIGNES VERTICALEMENT
+        // pour ce test on sait qu'on pourra se réduire aux 3 lignes du bas car il n'y aura pas assez de place pour faire  un alignement de 4 jetons verticalement sinon
+        // si le premier jeton se trouvant le plus bas par rapport aux 3 autres
+        for ( int j = 0 ; j < 7 ; j++ ) { // on prends en compte bien chacuneS des lignes se situe sur la ligne 4 , le joueur ne pourra pas faire un aligenment vertical de 4 jetons il devra s'arréter a 3 (et perdre)
+            for (int i = 0 ; j < 3 ; i++ ){ // 6-3 = 3
+                if ( Cellules[i][j].lireCouleurDuJeton () == jetonCourant.Couleur ) { // pour comparer des strings on peut utiliser '==' ou '!='
+                    if ( Cellules[i+1][j].lireCouleurDuJeton () == jetonCourant.Couleur ) { 
+                        if ( Cellules[i+2][j].lireCouleurDuJeton () == jetonCourant.Couleur ) {
+                            if ( Cellules[i+3][j].lireCouleurDuJeton () == jetonCourant.Couleur ) {
+                                return true ;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     
     
-    
- 
-   
+        // TEST SUR LES DIAGONALES DESCENDANTE : ON CONSIDERE QUE LE 1ER JETON EST LE JETON LE PLUS HAUT  A GAUCHE ET QUE LE QUATRIEME JETON EST LE PLUS BAS 3 COLONNES DECALEES SUR LA DROITE ET 3 LIGNES EN DESSOUS
+        // ON PEUT DONC SUPPRIMER LES 3 COLONNES LES PLUS A DROITE AINSI QUE LES LES 3 LIGNES DU BAS
+        for ( int i = 0 ; i < 3 ; i++ ) { // on prend en compte que les 3 lignes du haut 
+            for (int j = 0 ; j < 4 ; j++ ){ // on prend en compte que les 4 colonnes les plus à gauches 
+                if ( Cellules[i][j].lireCouleurDuJeton () == jetonCourant.Couleur ) { // pour comparer des strings on peut utiliser '==' ou '!='
+                    if ( Cellules[i+1][j+1].lireCouleurDuJeton () == jetonCourant.Couleur ) { 
+                        if ( Cellules[i+2][j+2].lireCouleurDuJeton () == jetonCourant.Couleur ) {
+                            if ( Cellules[i+3][j+3].lireCouleurDuJeton () == jetonCourant.Couleur ) {
+                                return true ;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+         // TEST SUR LES DIAGONALES MONTANTES : ON CONSIDERE QUE LE 1ER JETON EST LE JETON LE PLUS HAUT DES 4 ET QUE C'EST AUSSI LE PLUS A DROITE ET QUE LE QUATRIEME JETON EST LE PLUS BAS ET QU'IL SE TROUVE 3 COLONNES DECALEES SUR LA GAUCHE ET 3 LIGNES EN DESSOUS PAR RAPPORT AU PREMIER JETON
+        // ON PEUT DONC SUPPRIMER LES 3 PREMIERES COLONNES LES PLUS A DROITE AINSI QUE LES LES 3 LIGNES DU BAS
+        for ( int i = 3 ; i < 6 ; i++ ) { // on prend en compte que les 3 lignes du haut 
+            for (int j = 0 ; j < 4 ; j++ ){ // on prend en compte que les 4 colonnes les plus à gauches 
+                if ( Cellules[i][j].lireCouleurDuJeton () == jetonCourant.Couleur ) { // pour comparer des strings on peut utiliser '==' ou '!='
+                    if ( Cellules[i-1][j+1].lireCouleurDuJeton () == jetonCourant.Couleur ) { 
+                        if ( Cellules[i-2][j+2].lireCouleurDuJeton () == jetonCourant.Couleur ) {
+                            if ( Cellules[i-3][j+3].lireCouleurDuJeton () == jetonCourant.Couleur ) {
+                                return true ;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+         return false ; // si aucune de ces conditions est remplis alors il n'y a pas de combinaisons gagnantes
 }
-
+    
+}

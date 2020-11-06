@@ -21,7 +21,7 @@ public class Jeton {
     }
    
     // renvoit la couleur du jeton
-    public String lireCouleur () {
+    public String lireCouleur() {
         return Couleur ;
     }
     
