@@ -188,12 +188,6 @@ public class Grille {
             }
         System.out.println (" ") ; // on revient a la ligne pour la ligne suivante
         }
-    
-    
-    
-    
-    
-    
     }
     
     
