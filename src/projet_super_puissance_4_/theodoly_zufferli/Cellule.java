@@ -78,7 +78,7 @@ public class Cellule {
         if (trouNoir){
             jetonCourant = null ;
             trouNoir = false ;
-                System.out.println("Votre pion vient d'être aspirer aspirer par le trou noir !");
+                System.out.println("Votre jeton vient d'être aspirer aspirer par le trou noir !");
             return true;
         }else{
             return false ;
