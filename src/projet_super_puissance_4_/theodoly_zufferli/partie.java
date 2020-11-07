@@ -257,7 +257,22 @@ public class partie {
             return false;
         }
     }
+    public void debuterPartie () {
         
+        Random r = new Random () ;
+        boolean partiefinie ;
+        partiefinie = false ;
+        int alea ;
+        
+        attribuerCoueleursAuxJoueurs();
+        initialiserPartie();
+           
+        alea = r.nextInt(2) ;
+        JoueurCourant = Listejoueurs[alea] ;
+        
+
+    }
+    
 }
 
 
