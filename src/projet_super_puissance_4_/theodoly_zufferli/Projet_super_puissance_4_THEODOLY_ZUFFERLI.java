@@ -19,6 +19,6 @@ public class Projet_super_puissance_4_THEODOLY_ZUFFERLI {
         partie unepartie = new partie();
 	System.out.println(" Bienvenue dans le jeu du Super Puissance 4 ! ");
         System.out.println(" Merci de bien suivre les isntructions qui vont suivre pour le bon déroulement de la partie, BONNE CHANCE  !! ");
-	unepartie.option_joueur(); // lancement de la partie
+	unepartie.debuterPartie (); // lancement de la partie
     }
 }
