@@ -1,6 +1,6 @@
 /*
   * super puissance 4
- * Clara THEODOLY
+  * Clara THEODOLY
   * Chloé ZUFFERLI
  */
 package projet_super_puissance_4_.theodoly_zufferli;
@@ -38,12 +38,13 @@ public class Grille {
    
     // ajoute le jeton dans la colonne ciblée, sur la cellule vide la plus basse. renvoie faux si la colonne était pleine
     // en paramètre on a jeton (jeton à ajouter) , le joueurCourant ( le joueur qui effectue l'action), j (indice de la colonne ciblée)
-    Boolean ajouterJetonDansColonne (Jeton UN_jetonCourant, Joueur joueurCourant, int j){ // rappel : j = indice de la colonne
+    Boolean ajouterJetonDansColonne (Joueur JoueurCourant, int j){ // rappel : j = indice de la colonne
         if (colonne_remplie( j )) return false ; // si la colonne est remplie, on s'arrete et on retourne false
-        int i = nombre_lignes -1 ;
-        while ( celluleOccupee (i,j)){
-            i -- ;
+        int i = 0 ;
+        while ( Cellules[i][j].jetonCourant != null){
+            i ++ ;
         }
+        Jeton UN_jetonCourant = JoueurCourant.retirerJeton () ;
         Cellules[i][j].jetonCourant = UN_jetonCourant ;
         
         // si il y a un trou noir au niveau du jeton qu'on ajoute, il faut activer ce trou noir
@@ -72,12 +73,9 @@ public class Grille {
     
     // la colonne est remplie si après avoir été tassée la cellule tout en haut est occupée
     public boolean colonne_remplie( int j ){
-        if ( Cellules [5][j]. recupererJeton () == null ) { // la colonne n'est pas remplie car la cellule du haut est vide
-                return false ; // on retourne false
-        }else{
-            return true ; // notre colonne est bien remplie
-        }
-    }
+        return (Cellules[5][j].recupererJeton () != null ) ; // la cellule ou i = 5 est la cellule la plus haut de la grille
+    } // retourne vrai si la colonne d'indice j est complète
+    
     
     
     // vide la grille de tous les jetons en les supprimant et retire aussi les trous noirs et les désintégrateurs
@@ -103,23 +101,25 @@ public class Grille {
     
     // ajoute un trou noir à l'endroit indiqué et retourne vrai si l'ajout s'est bien passé, ou faux sinon
     public boolean placerTrouNoir ( int i , int j ) { // prends en paramètres les coordonnées
-        if (! Cellules[i][j].presenceTrouNoir() ) { // il y a un trou noir 
+        if (Cellules[i][j] == null) {
+            Cellules[i][j] = new Cellule();
+        } if (! Cellules[i][j].presenceTrouNoir() ) { // il y a un trou noir 
             Cellules[i][j].trouNoir = true ; // on ajoute le trou noir
             return true; // on retourne vrai lorsque l'ajout s'est bien passée
-        }else{
-            return false;
         }
+        return false;
     }
     
     
     // ajoute un desintegrateur à l'endroit indiqué et retourne vrai si l'ajout s'est bien passé, ou faux sinon
     public boolean placerDesintegrateur ( int i , int j ) { // prends en paramètres les coordonnées
-        if (! Cellules[i][j].presenceDesintegrateur () ) { // il y a un desintegrateur 
+        if (Cellules[i][j] == null) {
+            Cellules[i][j] = new Cellule() ;
+        } if (! Cellules[i][j].presenceDesintegrateur () ) { // il y a un desintegrateur 
             Cellules[i][j].desintegrateur = true ; // on ajoute le desintegrateur
             return true; // on retourne vrai lorsque l'ajout s'est bien passée
-        }else{
-            return false;
         }
+        return false ;
     }
     
     
@@ -160,7 +160,6 @@ public class Grille {
     // doit faire apparaitre les couleurs, les trous noirs et les desintégrateurs
     public void afficherGrillesurConsole () {
         // test pour toutes les cases de notre tableau
-        String espace = " " ; // création d'une variable espace de type string, sera utilise pour espacer les chacunes des cellules lors de l'affichage
         //initialisation des couleurs 
         String jaune = "\033[93m" ;
         String rouge = "\033[91m" ; 
@@ -168,23 +167,25 @@ public class Grille {
         
         for (int i = 0 ; i < 6 ; i++) { 
             for (int j = 0 ; j < 7 ; j++) {
-                System.out.print (espace) ;
+                System.out.print (" ") ;
             
-                if (Cellules[i][j].presenceTrouNoir() ){ // il y a un trou noir sur notre cellule
+                if (celluleOccupee (i,j) ){
+                    switch ( Cellules[i][j].lireCouleurDuJeton ()) { // il y a un jeton sur la cellule
+                        case "jaune" : // ce jeton est jaune
+                            System.out.print ( jaune+ "J" +noir ) ; // on fait juste un print sans ln pour rester sur la meme ligne : on veut que le "J" apparaisse en jaune
+                            break ;
+                    case "rouge": // le jeton présent sur la cellule est rouge
+                        System.out.print ( rouge+ "J" +noir ) ; // le "J" de jeton apparaitra en rouge
+                    }   
+                } else if (Cellules[i][j].presenceTrouNoir() ){ // il y a un trou noir sur notre cellule
                     System.out.print ("T") ; // le trou noir sur notre grille apparaîtra comme un grand T
                 }
                 else if (Cellules[i][j].presenceDesintegrateur() ){ // il y a un desintegrateur sur notre cellule
                     System.out.print ("D") ; // le trou noir sur notre grille apparaîtra comme un grand D
+                } else {
+                    System.out.print(" ");
                 }
-                else if (celluleOccupee (i,j) ){
-                    switch ( Cellules[i][j].lireCouleurDuJeton ()) { // il y a un jeton sur la cellule
-                        case "\033[93mjaune\033[0m" : // ce jeton est jaune
-                            System.out.print ( jaune+ "J" +noir ) ; // on fait juste un print sans ln pour rester sur la meme ligne : on veut que le "J" apparaisse en jaune
-                            break ;
-                    case "\033[91mrouge\033[0m": // le jeton présent sur la cellule est rouge
-                        System.out.print ( rouge+ "J" +noir ) ; // le "J" de jeton apparaitra en rouge
-                    }   
-                }
+                
             }
         System.out.println (" ") ; // on revient a la ligne pour la ligne suivante
         }
@@ -248,7 +249,7 @@ public class Grille {
             }
         }
         
-         // TEST SUR LES DIAGONALES MONTANTES : ON CONSIDERE QUE LE 1ER JETON EST LE JETON LE PLUS HAUT DES 4 ET QUE C'EST AUSSI LE PLUS A DROITE ET QUE LE QUATRIEME JETON EST LE PLUS BAS ET QU'IL SE TROUVE 3 COLONNES DECALEES SUR LA GAUCHE ET 3 LIGNES EN DESSOUS PAR RAPPORT AU PREMIER JETON
+        // TEST SUR LES DIAGONALES MONTANTES : ON CONSIDERE QUE LE 1ER JETON EST LE JETON LE PLUS HAUT DES 4 ET QUE C'EST AUSSI LE PLUS A DROITE ET QUE LE QUATRIEME JETON EST LE PLUS BAS ET QU'IL SE TROUVE 3 COLONNES DECALEES SUR LA GAUCHE ET 3 LIGNES EN DESSOUS PAR RAPPORT AU PREMIER JETON
         // ON PEUT DONC SUPPRIMER LES 3 PREMIERES COLONNES LES PLUS A DROITE AINSI QUE LES LES 3 LIGNES DU BAS
         for ( int i = 3 ; i < 6 ; i++ ) { // on prend en compte que les 3 lignes du haut 
             for (int j = 0 ; j < 4 ; j++ ){ // on prend en compte que les 4 colonnes les plus à gauches 
