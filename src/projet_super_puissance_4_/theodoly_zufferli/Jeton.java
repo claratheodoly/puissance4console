@@ -25,19 +25,11 @@ public class Jeton {
         return Couleur ;
     }
     
+  
     @Override
     public String toString() {
-        String lireCouleur ;
-        lireCouleur = "La couleur du joueur est " +Couleur;
-        return lireCouleur ; // car c'est une fonction qui doit retourner qqch
-        // méthode to String, sans elle on n'arrive pas a faire fonctionner correctement le system.out.println du main() 
-    } 
-    
-    // Sinon utiliser le code suivant qui est celui du prof
-    //  @Override
-    //  public String toString() {
-    //      if( "Rouge".equals(Couleur))
-    //         return "\u001B[31m 0 " ;
-    //      return "\u001B[33m 0 " ;
-    //  }
+        if( "Rouge".equals(Couleur))
+            return "\u001B[31m 0 " ;
+        return "\u001B[33m 0 " ;
+    }
 }

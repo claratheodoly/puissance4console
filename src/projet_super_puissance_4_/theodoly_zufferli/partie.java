@@ -20,35 +20,17 @@ import java.util.Scanner;
 
 public class partie {
     // attributs de la classe partie
-    Joueur Listejoueurs[] = new Joueur [2] ;
+    Joueur Listejoueurs[];
     Joueur JoueurCourant ;
-    Grille grilleDeJeu = new Grille () ;
+    Grille grilleDeJeu ;
+    
+  public partie (){
+        grilleDeJeu = new Grille ();
+        Listejoueurs = new Joueur [2];
+    }
     
     
     public void attribuerCoueleursAuxJoueurs () {
-        
-        Random x = new Random () ;
-        boolean couleurDujoueur ;
-        couleurDujoueur = x.nextBoolean () ;
-        if (couleurDujoueur) {
-            Listejoueurs [0].Couleur = "Rouge" ;
-            Listejoueurs [1].Couleur = "Jaune" ;
-        }else{
-            Listejoueurs [0].Couleur = "Jaune" ;
-            Listejoueurs [1].Couleur = "Rouge" ;
-        }
-    }
-     
-    Joueur ProchainJoueur (Joueur un_joueur) {
-        if (Listejoueurs [0] == JoueurCourant) {
-            return Listejoueurs [1] ;
-        }
-        return Listejoueurs [0] ;
-    }
-    
-    void initialiserPartie (){
-        
-        grilleDeJeu.viderGrille (); // il est important de toujours bien vider la grille avant de commencer
         
         // il faut créer nos deux joueurs
         Scanner sc = new Scanner (System.in) ; // utilisation de la focntion scanner pour permettre à 'lutilisateur de choisir les pseudos des joueurs
@@ -60,34 +42,43 @@ public class partie {
         Joueur AUTREJoueur = new Joueur (sc.nextLine()) ; // creation du 2e joueur auquel on rentre le second pseudo
         Listejoueurs [1] = AUTREJoueur ;
         
-        attribuerCoueleursAuxJoueurs () ; // on appelle la fonction attribuer couleurs aux joueurs
+        int index ;
+        Random rnd = new Random();
+        index = rnd.nextInt(2);
+	
+	Listejoueurs[index].affecterCouleur("rouge");
+	Listejoueurs[1-index].affecterCouleur("jaune");
     
         // on affiche une phrase d'instruction permettant de donner le pseudo du joueur ainsi que la couleur qui lui est attribuée
-        System.out.println ( UNJoueur.Nom + "a la couleur " + UNJoueur.Couleur) ; // pour le premier joueur
-        System.out.println ( AUTREJoueur.Nom + "a la couleur " + AUTREJoueur.Couleur) ; // pour le second joueur
+        System.out.println(Listejoueurs[0].Nom + " prend la couleur " +Listejoueurs[0].lireCouleur() + ", alors que " + Listejoueurs[1].Nom +" prend la couleur " + Listejoueurs[1].lireCouleur()+".");
     
         // on distribue le nombre nécessaire (21 jetons) de jetons à chaque joueurs
         for ( int i = 0 ; i < 21 ; i++ ) {
-            UNJoueur.ajouter_Jeton (new Jeton (UNJoueur.Couleur)) ;
-        }   AUTREJoueur.ajouter_Jeton (new Jeton (AUTREJoueur.Couleur)) ;
-        
-        // test aléatoire qui permettra de choisir lequel des deux joueurs (UNJoueur ou AUTREJoueur) commencera par jouer et placer ses pions
-        Random r = new Random () ; // fonction aléatoire
-        boolean premierJoueur ;
-        premierJoueur = r.nextBoolean () ;
-        if ( premierJoueur ) { // on fait un if pour que que si premierjoueur == true  
-            JoueurCourant = Listejoueurs [0] ; // UNJoueur deveint le joueur courant soit le 1er a jouer
-        } else { // sinon
-            JoueurCourant = Listejoueurs [1] ; // AUTREJoueur devient le JoueurCourant soit le 1er a jouer
+            UNJoueur.ajouter_Jeton (new Jeton (UNJoueur.Couleur)) ;        
+        AUTREJoueur.ajouter_Jeton (new Jeton (AUTREJoueur.Couleur)) ;
         }
+       
+    }
+     
+    Joueur ProchainJoueur (Joueur un_joueur) {
+        if (Listejoueurs [0] == JoueurCourant) {
+            return Listejoueurs [1] ;
+        }
+        return Listejoueurs [0] ;
+    }
     
+    void initialiserPartie (){
+      grilleDeJeu.viderGrille() ;
+        Random r = new Random () ; // fonction aléatoire    
+      
+       
         // on initialise les Trous noirs aléatoirement qui sont au nombre de 5
-        int compteur = 0 ; // initialisation ud compteur à 0
+        /*int compteur = 0 ; // initialisation ud compteur à 0
         for ( int i = 0 ; i < 5 ; i++ ) {
         int lignedutrounoir ; // initialisation de la variable lignetrounoir qui prendra comme valeur le numéro de la ligne sur laquelle se trouvera le trou noir
         int colonnedutrounoir ; // initialisation de la variable colonnetrounoir qui prendra comme valeur le numéro de la colonne sur laquelle se trouvera le trou noir
-        lignedutrounoir = r.nextInt(6); // la ligne du trou noir est choisi aléatoirement entre la ligne 1 et la ligne 6
-        colonnedutrounoir = r.nextInt(7); // la colonne du trou noir est choisi aléatoirement entre la colonne 1 et la colonne 7
+        lignedutrounoir = r.nextInt(5); // la ligne du trou noir est choisi aléatoirement entre la ligne 1 et la ligne 6
+        colonnedutrounoir = r.nextInt(6); // la colonne du trou noir est choisi aléatoirement entre la colonne 1 et la colonne 7
             if (compteur < 2 ) {
                 if ( !grilleDeJeu.placerDesintegrateur (lignedutrounoir , colonnedutrounoir) ) {
                     compteur -- ;
@@ -108,7 +99,8 @@ public class partie {
         if ( !grilleDeJeu.placerDesintegrateur (lignedudesintegrateur , colonnedudesintegrateur) ) {
                 i-- ;
             }
-        }
+        }*/
+        
         grilleDeJeu.afficherGrillesurConsole () ; // une fois tous les trous noirs et désintégrateurs placés on re affiche la grille pour la mettre à jour
     }
     
@@ -176,8 +168,8 @@ public class partie {
                 System.out.println("Il semblerait que vous n'ayez plus de jetons. ") ;
         } else {
                 jetonajouer = JoueurCourant.ListeJetons[JoueurCourant.nombreJetonsRestants -1] ;
-                jetonjouee = grilleDeJeu.ajouterJetonDansColonne(jetonajouer, JoueurCourant, colonnejeton) ;
-            if ( ! jetonjouee ) {
+                jetonjouee = grilleDeJeu.ajouterJetonDansColonne (JoueurCourant, colonnejeton ) ;
+                if ( ! jetonjouee ) {
                 System.out.println ( " Aïe aïe aïe, la colonne dans laquelle vous voulez jouer votre jeton est déjà pleine ....") ;
                 System.out.println ( " C'était une erreure fatale, vous venez de perdre instantanément votre jeton, passez votre tour et faite plus attention ! " ) ;
                 return false ;
@@ -258,21 +250,77 @@ public class partie {
         }
     }
     public void debuterPartie () {
-        
+       
+                
         Random r = new Random () ;
         boolean partiefinie ;
-        partiefinie = false ;
+        partiefinie = false ; // ce qui veut dire que la partie n'est donc pas finie
         int alea ;
         
         attribuerCoueleursAuxJoueurs();
+        
         initialiserPartie();
-           
+        grilleDeJeu.afficherGrillesurConsole ();
         alea = r.nextInt(2) ;
         JoueurCourant = Listejoueurs[alea] ;
-        
-
+        System.out.println ( "Le premier joueur à commencer la partie est " +JoueurCourant+ " !" ) ;
+        grilleDeJeu.afficherGrillesurConsole() ;
+        // " !partiefinie " : le '!' est un opérateur non logique qui retourne true si la variable vaut false, et false si elle vaut true.
+        while ( !partiefinie ) { // dans le cas ou partiefinie == true
+            JoueurCourant = Listejoueurs[alea] ;
+            partiefinie = tourDeJeu (JoueurCourant) ;
+            if (!partiefinie) {
+		if (grilleDeJeu.etreRemplie() ) { // Si la grille est remplie, la partie ne peut pas continuer et doit s'arrêter
+                    partiefinie = true;
+                    System.out.print("La grille est pleine ! Félicitations aux deux joueurs, le match est nul.");
+		} else { // la grille n'est pas pleine le jeu peut continuer , c'est donc à l'autre joueur de jouer
+                    alea = ++ alea % 2 ;
+		}
+            }    
+        }
     }
     
+    public boolean tourDeJeu(Joueur JoueurCourant) {
+        
+    Scanner sc = new Scanner(System.in); // introdution de la fonction scanner pour intergair avec l'utilisateur (ou les utilisateurs)
+    
+    System.out.println(JoueurCourant.Nom + ", c'est votre tour de jouer.");
+                
+        // on crée un menu de diverses options pour laisser choisir au joueur ce qu'il souhaite faire
+        // tout d'abord on présente à l'écran les possibilités qui s'offrent à lui
+        
+        System.out.println (" Plusieurs options s'offrent à vous, que voulez-vous faire ?") ;
+        System.out.println (" 1ère option : Vous voulez jouer un jeton") ;
+        System.out.println (" 2ème option : Vous voulez récupérer un jeton") ;
+        System.out.println (" 3ème option : Vous voulez utiliser un désintégrateur et désintegrer un jeton") ;
+        System.out.println (" Pour choisir correctement l'option que vous souhaitez, veuillez entrer soit 1 pour la 1ère option, ou 2, ou encore 3. ") ;
+        
+        // maintenant on lui peermet de choisir l'option qu'il souhaite en rentrant un chiffre
+        int optionchoisi = sc.nextInt() ;
+        
+        // création d'un switch/case pour faire intervenir les différentes méthodes en fonction du choix du joueur
+        switch (optionchoisi) { // les différents "cas", c'est-à-dire a réponse choisie par le joueur
+            // le joueurCourant a choisi de jouer un jeton en rentrant 1
+            case 1:
+               jouerJeton (); // effectuer la méthode jouerJeton
+               break;  // Utilisation du break pour mettre fin au programme
+            // le joueurCourant a choisi de récupérer un jeton en rentrant 2
+            case 2:
+                recuperer_jeton ();
+                break;
+            // le joueurCourant a choisi de désintégrer un jeton en rentrant 3
+            case 3:
+                desintegrer_jeton ();
+                break;
+            // le joueurCourant a choisi une muavaise option : une option qu n'existe pas et qui n'est pas reconnue
+            default: 
+            System.out.println (" OUPS... il semblerait que vous ayez choisit une option qui n'existe pas :/ ") ;
+            System.out.println (" Veuillez entrer une option entre la 1, la 2 et la 3 : ") ;
+            optionchoisi = sc.nextInt() ; // l'utilisateur peut rentrer une option qui cette fois existe
+                break;
+        }
+        return true ;
+    } 
 }
 
 
