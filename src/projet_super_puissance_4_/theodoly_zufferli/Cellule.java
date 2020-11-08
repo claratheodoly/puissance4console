@@ -116,14 +116,10 @@ public class Cellule {
     
 
     
-    // soit renvoit le mot "rien"
+   
     // ou renvoit la couleur du jeton occupant la cellule
     public String lireCouleurDuJeton (){
-        if (jetonCourant == null){
-            return "rien" ;
-        }else{
-            return jetonCourant.Couleur ;
-        }
+        return jetonCourant.Couleur ;
     }
     
 }    

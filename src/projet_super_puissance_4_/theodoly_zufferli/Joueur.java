@@ -52,7 +52,7 @@ public class Joueur {
     // de manière similaire a la méthode "ajouterJeton" je cree la méthode "retirerJeton"
     public Jeton retirerJeton (){ 
         nombreJetonsRestants -- ; // on enlève un jeton
-        return ListeJetons [nombreJetonsRestants] ; // laliste reprends le bon nombre de jeton
+        return ListeJetons [nombreJetonsRestants] ; // la liste reprends le bon nombre de jeton
     }
         
     

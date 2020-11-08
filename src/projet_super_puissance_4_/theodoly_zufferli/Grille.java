@@ -21,14 +21,14 @@ public class Grille {
     // attributs de la classe
     final int nombre_lignes = 6 ;
     final int nombre_colonnes = 7 ;
-     Cellule[][] Cellules ;
+    Cellule[][] Cellules ;
     // se souvenir que la cellule[0][0] est de coordonnées (0,0) et qu'elles est en bas à gauche de la grille. 
     // c'est l'origine de notre repère
     
     
     // on initialise la grille avec 42 cellules vides 
     // pour que ce soit bien un cosntructeur : PAS DE VOID
-   public Grille() {
+   public  Grille() {
        Cellules = new Cellule[6][7] ;
         for (int i = 0 ; i < 6 ; i++) { // i --> pour les lignes
             for (int j = 0 ; j < 7 ; j++) { // j --> pour les colonnes
@@ -52,7 +52,7 @@ public class Grille {
         
         // si il y a un trou noir au niveau du jeton qu'on ajoute, il faut activer ce trou noir
         if ( Cellules[i][j].presenceTrouNoir()) { // comme c'est un boolean : sur cette ligne c'est dans le cas ou presenceTrouNoir return vrai et qu'il y a donc bien un trou noir
-             Cellules[i][j].activerTrouNoir () ; // activation du trou noir en rappelant la méthode activerTrouNoir ()
+            Cellules[i][j].activerTrouNoir () ; // activation du trou noir en rappelant la méthode activerTrouNoir ()
         }
         // ON FAIT LA MEME CHOSE POUR LES DESINTEGRATEURS
         
@@ -80,23 +80,14 @@ public class Grille {
     } // retourne vrai si la colonne d'indice j est complète
     
     
-    
-   /* // vide la grille de tous les jetons en les supprimant et retire aussi les trous noirs et les désintégrateurs
+  
+    // vide la grille de tous les jetons en les supprimant et retire aussi les trous noirs et les désintégrateurs
      public void viderGrille(){
         for (int i = 0 ; i < 6 ; i++){
             for (int j = 0 ; j < 7 ; j++){
                 Cellules[i][j].supprimerJeton() ;  // on supprimes les jetons
                 Cellules[i][j].trouNoir = false ; // on fait disparaître le trou noir
                 Cellules[i][j].desintegrateur = false ;  // on fait également disparaître les désinétgrateurs
-            }
-        }
-    } */  
-     
-    public void viderGrille(){
-        for (int i = 0 ; i < 6 ; i++){
-            for (int j = 0 ; j < 7 ; j++){
-                Cellules[i][j] = new Cellule () ;  // on supprimes les jetons
-                
             }
         }
     }   
@@ -155,53 +146,68 @@ public class Grille {
     
     // renvoie la couleur du jeton de la cellule ciblée
     public String lireCouleurDuJeton ( int i , int j ) {
-    return Cellules[i][j].lireCouleurDuJeton () ;
+    return Cellules[i][j].recupererJeton ().lireCouleur () ;
     }
     
     
     // lorsqu'un jeton est capturé ou détruit, tasse la grille en décalant de une ligne les jetons situés au dessus de la cellule libérée
    public void tasserGrille ( int j ) { 
-       for ( int i = 5 ; i >= 1 ; i -- ) { // j --  car on part du bas de la grille, à la ligne 5 (à cause de l'origine du repère qui est tout en bas) le j>=1 repésente le : "ne pas être sur la dernière ligne"
-           if ( Cellules[i][j].jetonCourant == null ) {
-               Cellules [i][j].jetonCourant = Cellules [ i -1][j].jetonCourant ; //on fait descendre le jeton en enlevant 1 à son indice de ligne
-               Cellules [ i -1][j].jetonCourant = null ; // on le passe a null car comme le jeton est tombé il ne faut plus qu'il soit dans l'ancienne cellule
-            } //  si on ne fait la ligne 154 le jeton serait dans les 2 cellules celle du haut et celle du bas
+       int trou = 0;
+       for (int i = nombre_lignes - 1 ; i >= 0 ; i--) {
+            if (Cellules[i][j].recupererJeton() == null) {
+                trou ++;
+            } else if (trou != 0) {
+                Cellules[i+ trou][j].affecterJeton(Cellules[i][j].recupererJeton());
+                Cellules[i][j].supprimerJeton(); // ne pas oublier de le supprimer du haut mainteant qu'on a tout fait descendre
+            }
         }
     }
     
     // fonction d'affichage de la grille sur la console. 
     // doit faire apparaitre les couleurs, les trous noirs et les desintégrateurs
     public void afficherGrillesurConsole () {
+        
         // test pour toutes les cases de notre tableau
         //initialisation des couleurs 
-        String jaune = "\033[93m" ;
-        String rouge = "\033[91m" ; 
-        String noir = "\033[0m" ; // aucune couleur
+        String r = "\033[91m"; /* rouge clair */
+        String j = "\033[93m"; /* jaune clair */
+        String e = "\033[0m"; // aucune couleur
+        String n = "\033[90m"; /* gris clair */
+        String v = "\033[32m"; /* vert */
+        String g = "\033[1m"; /* gras */
         
-        for (int i = 0 ; i < 6 ; i++) { 
-            for (int j = 0 ; j < 7 ; j++) {
-                
-                if (Cellules[i][j].jetonCourant != null ){
-                    System.out.println("J");
-                } 
-                
-                else if (Cellules[i][j].presenceTrouNoir() ){ // il y a un trou noir sur notre cellule
-                    System.out.print ("T") ; // le trou noir sur notre grille apparaîtra comme un grand T
+        System.out.print("\n");
+        for (int i = 0; i < nombre_lignes; i++) {
+            for ( int J = 0; J < nombre_colonnes; J ++) {
+                System.out.print(" ");
+                if (celluleOccupee(i,J)) {
+                    
+                    switch (Cellules[i][J].lireCouleurDuJeton()) {
+			case "\033[93mjaune\033[0m":
+                            System.out.print(j+"J"+e);
+                            break;
+			case "\033[91mrouge\033[0m":
+                            System.out.print(r+"R"+e);
+                            break;
+			default:
+                            System.out.print(Cellules[i][J].lireCouleurDuJeton().toUpperCase());
+                            break;
+                    }
+                    
+                } else if (Cellules[i][J].presenceTrouNoir()) { // il y a un trou noir sur notre cellule
+                    System.out.print(n+"T"+e); // le trou noir sur notre grille apparaîtra comme un grand T
                 }
-                
-                else if (Cellules[i][j].presenceDesintegrateur() ){ // il y a un desintegrateur sur notre cellule
-                    System.out.print ("D") ; // le trou noir sur notre grille apparaîtra comme un grand D
-                } 
-                
+                else if (Cellules[i][J].presenceDesintegrateur()) { // il y a un desintegrateur sur notre cellule
+                    System.out.print(v+"D"+e); // le désintégrateur sur notre grille apparaîtra comme un grand D
+                }
                 else {
-                    System.out.print("X");
+                    System.out.print("X"); // case vide
                 }
-                
             }
-        System.out.print("\n") ; // on revient a la ligne pour la ligne suivante
+	System.out.print("\n");// on revient a la ligne pour la ligne suivante
         }
+        System.out.print("\n");  
     }
-    
     // renvoie vrai si la grille est gagnate pour le joueur passé en paramètr, c'est à dire que 4 pions de sa couleur sont alignés 
     // EN LIGNE
     // EN COLONNE
@@ -279,3 +285,4 @@ public class Grille {
 }
     
 }
+

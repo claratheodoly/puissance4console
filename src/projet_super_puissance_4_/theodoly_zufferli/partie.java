@@ -234,7 +234,7 @@ public class partie {
         }
         
         colonnejeton = sc.nextInt() - 1;
-        while (colonnejeton>6 || lignejeton<0) {
+        while (colonnejeton> 6 || lignejeton<0) {
             System.out.println("Choix non valide");
         }
         if (grilleDeJeu.Cellules[lignejeton][colonnejeton].jetonCourant != null &&  grilleDeJeu.Cellules[lignejeton][colonnejeton].lireCouleurDuJeton() == JoueurCourant.Couleur ) { 
@@ -261,6 +261,7 @@ public class partie {
         
         initialiserPartie();
         grilleDeJeu.afficherGrillesurConsole ();
+        
         alea = r.nextInt(2) ;
         JoueurCourant = Listejoueurs[alea] ;
         System.out.println ( "Le premier joueur à commencer la partie est " +JoueurCourant+ " !" ) ;
